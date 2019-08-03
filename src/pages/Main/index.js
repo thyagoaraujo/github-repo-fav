@@ -3,13 +3,14 @@ import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Container from '../../components/Container';
-import { Form, SubmitButton, List } from './styles';
+import { Form, FormInput, SubmitButton, List } from './styles';
 
 export default class Main extends Component {
   state = {
     newRepo: '',
     repositories: [],
     loading: false,
+    error: '',
   };
 
   // Carregar os dados do localStorage
@@ -18,6 +19,16 @@ export default class Main extends Component {
 
     if (repositories) {
       this.setState({ repositories: JSON.parse(repositories) });
+    } else {
+      this.setState({
+        repositories: [
+          {
+            name: 'thyagoaraujo/gobarber',
+            ownerAvatar:
+              'https://avatars0.githubusercontent.com/u/42300657?v=4',
+          },
+        ],
+      });
     }
   }
 
@@ -30,7 +41,7 @@ export default class Main extends Component {
   }
 
   handleInputChange = e => {
-    this.setState({ newRepo: e.target.value });
+    this.setState({ newRepo: e.target.value, error: false });
   };
 
   handleSubmit = async e => {
@@ -38,23 +49,38 @@ export default class Main extends Component {
 
     this.setState({ loading: true });
 
-    const { newRepo, repositories } = this.state;
+    try {
+      const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+      const response = await api.get(`/repos/${newRepo}`);
 
-    const data = {
-      name: response.data.full_name,
-    };
+      const data = {
+        name: response.data.full_name,
+        ownerAvatar: response.data.owner.avatar_url,
+      };
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      if (repositories.find(repo => repo.name === data.name)) {
+        throw new Error('Duplicated repository');
+      }
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+        error: '',
+      });
+    } catch (err) {
+      this.setState({
+        loading: false,
+        error: err.message.includes('404')
+          ? 'Repository not found'
+          : err.message,
+      });
+    }
   };
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const { newRepo, repositories, loading, error } = this.state;
 
     return (
       <Container>
@@ -64,28 +90,31 @@ export default class Main extends Component {
         </h1>
 
         <Form onSubmit={this.handleSubmit}>
-          <input
+          <FormInput
             type="text"
             placeholder="Adicionar repositório"
             value={newRepo}
             onChange={this.handleInputChange}
+            loading={loading}
+            error={error}
           />
 
-          <SubmitButton loading={loading}>
+          <SubmitButton loading={loading} disabled={!newRepo.length}>
             {loading ? (
               <FaSpinner color="#FFF" size={14} />
             ) : (
               <FaPlus color="#FFF" size={14} />
             )}
           </SubmitButton>
+          {error && <div className="error">{error}</div>}
         </Form>
 
         <List>
           {repositories.map(repository => (
             <li key={repository.name}>
-              <span>{repository.name}</span>
               <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
-                Detalhes
+                <img src={repository.ownerAvatar} alt={repository.name} />
+                <span>{repository.name}</span>
               </Link>
             </li>
           ))}

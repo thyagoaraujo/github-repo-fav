@@ -4,13 +4,35 @@ export const Form = styled.form`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
+  position: relative;
 
-  input {
-    flex: 1;
-    border: 1px solid #eee;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 16px;
+  .error {
+    position: absolute;
+    left: 0;
+    bottom: -17px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #d45353;
+    display: inline-block;
+    border-bottom: 1px solid #d45353;
+  }
+`;
+
+export const FormInput = styled.input.attrs(props => ({
+  disabled: props.loading,
+}))`
+  flex: 1;
+  border: 1px solid ${props => (props.error ? '#d45353' : '#eee')};
+  padding: 0 15px;
+  height: 60px;
+  border-radius: 4px;
+  font-size: 16px;
+  min-width: 0;
+  color: #333;
+
+  &[disabled] {
+    cursor: not-allowed;
+    background: #eee;
   }
 `;
 
@@ -29,10 +51,10 @@ export const SubmitButton = styled.button.attrs(props => ({
 }))`
   background: #7159c1;
   border: 0;
-  padding: 0 15px;
+  width: 60px;
   margin-left: 10px;
   border-radius: 4px;
-
+  transition: opacity 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,22 +75,61 @@ export const SubmitButton = styled.button.attrs(props => ({
 
 export const List = styled.ul`
   list-style: none;
-  margin-top: 30px;
-
   li {
-    padding: 15px 0;
+    padding: 20px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    &:first-child {
+      margin-top: 30px;
+    }
+    &:last-child {
+      padding-bottom: 0;
+    }
 
     & + li {
       border-top: 1px solid #eee;
     }
 
     a {
-      color: #7159c1;
+      display: flex;
+      align-items: center;
+      flex: 1;
+      margin-right: 15px;
       text-decoration: none;
+      max-width: calc(100% - 75px);
+
+      img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid #eee;
+        flex: 0 0 36px;
+      }
+
+      span {
+        color: #444;
+        font-weight: 700;
+        font-size: 16px;
+        transition: color 0.3s;
+        margin-left: 12px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        flex-shrink: 1;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+
+      &:hover {
+        span {
+          color: #7159c1;
+        }
+      }
     }
   }
 `;
