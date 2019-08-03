@@ -131,5 +131,25 @@ export const List = styled.ul`
         }
       }
     }
+
+    button {
+      display: flex;
+      flex: 0 0 60px;
+      background: transparent;
+      height: 30px;
+      border: 0;
+
+      svg {
+        color: #aaa;
+        width: 16px;
+        height: 16px;
+        margin: 0 auto;
+        transition: color 0.3s;
+      }
+
+      &:hover svg {
+        color: #7159c1;
+      }
+    }
   }
 `;

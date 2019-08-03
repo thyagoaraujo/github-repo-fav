@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { FaGithubAlt, FaPlus, FaSpinner, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Container from '../../components/Container';
@@ -79,6 +79,14 @@ export default class Main extends Component {
     }
   };
 
+  handleRemove = repositoryName => {
+    this.setState(state => ({
+      repositories: state.repositories.filter(
+        repo => repo.name !== repositoryName
+      ),
+    }));
+  };
+
   render() {
     const { newRepo, repositories, loading, error } = this.state;
 
@@ -116,6 +124,12 @@ export default class Main extends Component {
                 <img src={repository.ownerAvatar} alt={repository.name} />
                 <span>{repository.name}</span>
               </Link>
+              <button
+                type="button"
+                onClick={() => this.handleRemove(repository.name)}
+              >
+                <FaTrashAlt />
+              </button>
             </li>
           ))}
         </List>
