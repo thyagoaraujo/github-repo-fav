@@ -4,6 +4,8 @@ This is a ReactJS application developed in order to allow users to see the issue
 
 ### Demo
 
+[Live Preview](https://epic-murdock-aa38da.netlify.com)
+
 ## :rocket: Technologies
 
 This project was developed with the following technologies:
