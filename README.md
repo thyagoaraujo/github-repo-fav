@@ -1,26 +1,10 @@
+# Github Repo Fav
+
 This is a ReactJS application developed in order to allow users to see the issues of their favorite github repositories using github API.
 
-## Installation
+### Demo
 
-Clone the repository
-
-```bash
-git clone https://github.com/thyagoaraujo/github-repo-fav.git
-```
-
-Open a terminal on the repository folder and install the dependencies:
-
-```bash
-yarn
-```
-
-To run the application in development mode run:
-
-```bash
-yarn start
-```
-
-## Technologies
+## :rocket: Technologies
 
 This project was developed with the following technologies:
 
@@ -36,4 +20,26 @@ This project was developed with the following technologies:
 - [Prettier](https://prettier.io/)
 - [VS Code](https://code.visualstudio.com/) with [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
+## :information_source: How To Use
+
+```bash
+# Clone this repository
+$ git clone https://github.com/thyagoaraujo/github-repo-fav.git
+
+# Go into the repository
+$ cd github-repo-fav
+
+# Install dependencies
+$ yarn install
+
+# Run the app
+$ yarn start
+```
+
 ## :memo: License
+
+This project is under the MIT license. See the [LICENSE](https://github.com/thyagoaraujo/github-repo-fav/blob/master/LICENSE.md) for more information.
+
+---
+
+Made with ♥ by Thyago Araujo :wave: [Get in touch!](https://www.linkedin.com/in/thyagosantosaraujo/)
